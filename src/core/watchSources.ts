@@ -84,7 +84,10 @@ function handleDelete({ config, sourcesMap, file, source }: WatchEventParams): v
     return;
   }
 
-  const fileInOtherSources = config.copy.from.reverse().find(source => existsSync(resolve(source.path, file)));
+  const fileInOtherSources = config.copy.from
+    .slice() // slice is used to create new copy of the array because "reverse" is mutating
+    .reverse()
+    .find(source => existsSync(resolve(source.path, file)));
 
   if (!fileInOtherSources) {
     // File with the same path doesn't exists in other sources.

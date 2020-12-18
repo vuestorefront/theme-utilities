@@ -11,7 +11,7 @@ This package creates a `vsf-tu` script allowing to extend multiple [Vue Storefro
 
 Script reads files from multiple sources and copies them to destination directory. If files with the same path (relative to each source) exist in multiple sources, priority will be given to source defined later in the configuration.
 
-Files with `.vue`, `.ts`, `.js`, and `.json` extensions are additionally parsed using `ejs` library allowing them to contain build-time variables: `<%= some.source.variable %>`.
+Files with `.vue`, `.ts`, `.js`, and `.json` extensions are additionally parsed using `ejs` library, allowing them to contain build-time variables like `<%= some.source.variable %>`.
 
 ## Install
 
@@ -53,12 +53,13 @@ Alternatively you can use `--config path/to/config/file` flag to provide custom 
 
 - `to` Path to output directory. Can be relative or absolute.
 - `from` Array of source directories:
-  - `path` Path to source directory. Can be relative or absolute;
-  - `ignore` Array of ignored files/paths. Paths are [glob](https://github.com/isaacs/node-glob)-compatible.
-  - `variables` Template variables resolved at build-time
-  - `watch` Whether directory should be watched for changes
+  - `path` Path to source directory. Can be relative or absolute.
+  - `ignore` Array of ignored files/paths. Paths are [glob](https://github.com/isaacs/node-glob)-compatible. Contents of `.nuxt` and `node_modules` are ignored by default.
+  - `variables` Template variables resolved at build-time.
+  - `watch` Whether directory should be watched for changes.
 
 ### Example
+
 ```javascript
 module.exports = {
   copy: {
