@@ -1,0 +1,37 @@
+{
+  "name": "@vue-storefront/theme-utilities",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "bin": {
+    "vsf-tu": "lib/index.js"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "rimraf lib && rollup -c",
+    "watch": "rollup -w",
+    "start": "node lib/index.js",
+    "prepublishOnly": "yarn build"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "chokidar": "^3.4.3",
+    "ejs": "^3.1.5",
+    "glob": "^7.1.6",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@rollup/plugin-typescript": "^8.1.0",
+    "@types/ejs": "^3.0.5",
+    "@types/glob": "^7.1.3",
+    "@types/node": "^14.14.14",
+    "@types/rimraf": "^3.0.0",
+    "rollup": "^2.35.1",
+    "rollup-plugin-hashbang": "^2.2.2",
+    "tslib": "^2.0.3",
+    "typescript": "^4.1.3"
+  }
+}
