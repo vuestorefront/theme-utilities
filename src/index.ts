@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import loadConfig from './core/loadConfig';
+import loadConfiguration from './core/loadConfiguration';
 import watchSources from './core/watchSources';
 import clearOldBuild from './core/clearOldBuild';
 import createFileMapping from './core/createFileMapping';
@@ -7,7 +7,7 @@ import transformTemplate from './core/transformTemplate';
 import { SourcesMap } from './types';
 
 // Load configuration file
-const config = loadConfig();
+const config = loadConfiguration();
 
 // Create mapping between source and destination
 const sourcesMap: SourcesMap = createFileMapping({ config });

@@ -5,21 +5,31 @@ import { getWorkingDirectory, getArguments } from './helpers';
 import { configFlag, defaultConfigFilename } from '../settings';
 import { Configuration } from '../types';
 
-export default function loadConfiguration (): Configuration {
+export default function loadConfiguration(): Configuration {
   const args = getArguments();
   const index = args.findIndex(argument => argument === configFlag);
   const filePath = index > 0 && args[index + 1] || defaultConfigFilename;
-  const path = `${ getWorkingDirectory() }/${ filePath }`;
+  const path = resolve(getWorkingDirectory(), filePath);
 
   try {
-    const config = require(path);
-    return resolveSourcePaths(config);
+    let config = require(path);
+    config = resolveDestinationPath(config);
+    config = resolveSourcePaths(config);
+    return config;
   } catch (error) {
     console.log(error);
     console.log(chalk.bold.red(`Failed to load the configuration file '${ path }'.`));
     console.log(chalk.blue.bold(`You can provide custom config path using '${ configFlag }' flag.`));
     process.exit(1);
   }
+}
+
+/**
+ * This methods ensures that "to" is an absolute path.
+ */
+function resolveDestinationPath(config: Configuration): Configuration {
+  config.copy.to = resolve(getWorkingDirectory(), config.copy.to);
+  return config;
 }
 
 /**
