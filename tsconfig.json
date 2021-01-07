@@ -6,8 +6,19 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "removeComments": true
+    "removeComments": true,
+    "esModuleInterop": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "files": [
+    "./tests/helpers.d.ts"
+  ],
+  "include": [
+    "src",
+    "tests"
+  ],
+  "exclude": [
+    "lib",
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
