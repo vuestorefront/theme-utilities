@@ -46,3 +46,11 @@ export interface WatchEventParams {
   file: string,
   source: Source;
 }
+
+export const enum LogType {
+  Success,
+  Error,
+  Warning,
+  Message,
+  Raw
+}

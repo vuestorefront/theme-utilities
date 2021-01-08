@@ -1,8 +1,8 @@
 import * as ejs from 'ejs';
-import * as chalk from 'chalk';
 import { resolve, dirname, extname } from 'path';
 import { copyFileSync, writeFileSync, mkdirSync } from 'fs';
-import { TransformTemplateParams } from '../types';
+import { log } from '../core/helpers';
+import { LogType, TransformTemplateParams } from '../types';
 import { templateFilesExtensions } from '../settings';
 
 export default async function transformTemplate({ config, file, sourcePath }: TransformTemplateParams): Promise<void> {
@@ -22,7 +22,7 @@ async function parseTemplate({ config, file, sourcePath }: TransformTemplatePara
   try {
     return await ejs.renderFile(file, source.variables, { async: false });
   } catch (error) {
-    console.log(chalk.bold.red(`Failed to compile template '${file}'.`));
-    console.log(error);
+    log(`Failed to compile template '${file}'.`, LogType.Error);
+    log(error, LogType.Raw);
   }
 }

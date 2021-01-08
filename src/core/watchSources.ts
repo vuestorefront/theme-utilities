@@ -2,9 +2,8 @@ import { resolve } from 'path';
 import { existsSync, unlinkSync } from 'fs';
 import * as chokidar from 'chokidar';
 import transformTemplate from './transformTemplate';
-import { getFilesGlob, getFilePathFromSource, getPathPriority } from './helpers';
+import { getFilesGlob, getFilePathFromSource, getPathPriority, getIgnoredPaths } from './helpers';
 import { WatchSourcesParams, WatchEventParams } from '../types';
-import { defaultIgnoredSources } from '../settings';
 
 const eventMapping: Record<string, (params: WatchEventParams) => void> = {
   add: handleAdd,
@@ -16,13 +15,13 @@ export default function watchSources({ config, sourcesMap }: WatchSourcesParams)
   const sourcePaths = config.copy.from
     .filter(source => source.watch)
     .map(source => getFilesGlob(source.path));
-  
+
   if (!sourcePaths.length) {
     return;
   }
 
   const options = {
-    ignored: defaultIgnoredSources,
+    ignored: getIgnoredPaths(config),
     ignoreInitial: true,
     awaitWriteFinish: {
       stabilityThreshold: 500,
