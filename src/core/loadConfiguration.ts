@@ -1,11 +1,15 @@
+import * as chalk from 'chalk';
+import { resolve } from 'path';
 import { existsSync } from 'fs';
-import { dirname, resolve } from 'path';
-import { configFlag } from '../settings';
-import { Configuration, LogType } from '../types';
-import { log, getConfigurationPath } from './helpers';
+import { getWorkingDirectory, getArguments } from './helpers';
+import { configFlag, defaultConfigFilename } from '../settings';
+import { Configuration } from '../types';
 
 export default function loadConfiguration(): Configuration {
-  const path = getConfigurationPath();
+  const args = getArguments();
+  const index = args.findIndex(argument => argument === configFlag);
+  const filePath = index > 0 && args[index + 1] || defaultConfigFilename;
+  const path = resolve(getWorkingDirectory(), filePath);
 
   try {
     let config = require(path);
@@ -13,9 +17,9 @@ export default function loadConfiguration(): Configuration {
     config = resolveSourcePaths(config);
     return config;
   } catch (error) {
-    log(error, LogType.Raw);
-    log(`Failed to load the configuration file '${ path }'.`, LogType.Error);
-    log(`You can provide custom config path using '${ configFlag }' flag.`, LogType.Message);
+    console.log(error);
+    console.log(chalk.bold.red(`Failed to load the configuration file '${ path }'.`));
+    console.log(chalk.blue.bold(`You can provide custom config path using '${ configFlag }' flag.`));
     process.exit(1);
   }
 }
@@ -24,7 +28,7 @@ export default function loadConfiguration(): Configuration {
  * This methods ensures that "to" is an absolute path.
  */
 function resolveDestinationPath(config: Configuration): Configuration {
-  config.copy.to = resolve(dirname(getConfigurationPath()), config.copy.to);
+  config.copy.to = resolve(getWorkingDirectory(), config.copy.to);
   return config;
 }
 
@@ -35,18 +39,17 @@ function resolveDestinationPath(config: Configuration): Configuration {
  */
 function resolveSourcePaths(config: Configuration): Configuration {
   config.copy.from = config.copy.from.map(source => {
-    const configPath = dirname(getConfigurationPath());
-    let path = '';
+    const lookupPaths = [
+      getWorkingDirectory(),
+      ...require.resolve.paths(source.path),
+    ];
 
-    try {
-      path = require.resolve(source.path, { paths: [ configPath ] })
-      path = dirname(path);
-    } catch (error) {
-      path = resolve(configPath, source.path);
-    }
+    const path = lookupPaths
+      .map(path => resolve(path, source.path))
+      .find(path => existsSync(path));
 
-    if (!existsSync(path)) {
-      log(`Failed to resolve path '${ source.path }'.`, LogType.Error);
+    if (!path) {
+      console.log(chalk.bold.red(`Failed to resolve path '${ source.path }'.`));
       process.exit(1);
     }
 
