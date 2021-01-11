@@ -16,6 +16,9 @@
     "test": "jest",
     "prepublishOnly": "yarn build"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "chalk": "^4.1.0",
     "chokidar": "^3.4.3",
