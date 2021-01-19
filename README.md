@@ -24,6 +24,7 @@ yarn add @vue-storefront/theme-utilities
 Create a `theme-utils.config.js` file in the root of the project.
 
 ```javascript
+// theme-utils.config.js
 module.exports = {
   copy: {
     to: '',
@@ -61,6 +62,7 @@ Alternatively you can use `--config path/to/config/file` flag to provide custom 
 ### Example
 
 ```javascript
+// theme-utils.config.js
 module.exports = {
   copy: {
     to: '_theme',

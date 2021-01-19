@@ -1,9 +1,10 @@
+import { resolve } from 'path';
 import loadConfiguration from '../../src/core/loadConfiguration';
 import { configFlag, defaultConfigFilename } from '../../src/settings';
 
 const getConfig = (to) => ({
   copy: {
-    to,
+    to: resolve(to),
     from: []
   }
 });

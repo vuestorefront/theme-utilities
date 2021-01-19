@@ -1,4 +1,5 @@
 import { sync } from 'glob';
+import { resolve } from 'path';
 import { CreateFileMappingParams, SourcesMap } from '../types';
 import { getFilesGlob, getFilePathFromSource, getIgnoredPaths } from './helpers';
 
@@ -20,5 +21,6 @@ function getFilePaths ({ config, source }): string[] {
   };
 
   return sync(getFilesGlob(source.path), options)
+    .map(filePath => resolve(filePath))
     .map(filePath => getFilePathFromSource(filePath, source.path));
 }
