@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { resolve } from 'path';
+import { resolve, relative } from 'path';
 import { LogType } from '../types';
 import { configFlag, defaultConfigFilename, defaultIgnoredSources} from '../settings';
 
@@ -24,9 +24,7 @@ export function getFilesGlob(path: string): string {
 }
 
 export function getFilePathFromSource(path: string, sourcePath: string): string {
-  return path
-    .replace(sourcePath, '')
-    .replace(/^\//, '');
+  return relative(sourcePath, path);
 }
 
 export function getPathPriority(config, path): number {
