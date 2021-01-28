@@ -18,6 +18,7 @@ function getFilePaths ({ config, source }): string[] {
     ignore: getIgnoredPaths(config),
     follow: true,
     nodir: true,
+    dot: true
   };
 
   return sync(getFilesGlob(source.path), options)
