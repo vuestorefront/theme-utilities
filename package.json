@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/theme-utilities",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "homepage": "https://github.com/vuestorefront/theme-utilities#readme",
   "repository": {
@@ -22,7 +22,8 @@
     "prepublishOnly": "yarn build"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
     "chalk": "^4.1.0",
