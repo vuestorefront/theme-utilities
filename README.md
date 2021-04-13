@@ -7,7 +7,7 @@
 > **Disclaimer:** This project is still in beta phase.
 
 ## How it works
-This package creates a `vsf-tu` script allowing to extend multiple [Vue Storefront Next](https://github.com/vuestorefront/vue-storefront/tree/next) themes.
+This package creates a `vsf-tu` script allowing to extend multiple [Vue Storefront Next](https://github.com/vuestorefront/vue-storefront/tree/next) themes by letting them inherit from each other.
 
 You can use it with any JavaScript application though. it does not require Vue or Nuxt to run.
 
