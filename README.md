@@ -9,6 +9,8 @@
 ## How it works
 This package creates a `vsf-tu` script allowing to extend multiple [Vue Storefront Next](https://github.com/vuestorefront/vue-storefront/tree/next) themes.
 
+You can use it with any JavaScript application though. it does not require Vue or Nuxt to run.
+
 Script reads files from multiple sources and copies them to destination directory. If files with the same path (relative to each source) exist in multiple sources, priority will be given to source defined later in the configuration.
 
 Files with `.vue`, `.ts`, `.js`, and `.json` extensions are additionally parsed using `ejs` library, allowing them to contain build-time variables like `<%= some.source.variable %>`.
