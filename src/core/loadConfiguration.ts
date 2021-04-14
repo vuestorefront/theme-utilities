@@ -48,15 +48,15 @@ function resolveSourcePaths(config: Configuration): Configuration {
     try {
       path = resolve(configPath, source.path);
       if(!existsSync(path)) {
-        throw new Error()
+        throw new Error();
       }
     } catch (error) {
       try {
-        const [ one, two, ...rest ] = source.path.split('/')
-        path = one.startsWith('@') ? `${one}/${two}` : one
+        const [ one, two, ...rest ] = source.path.split('/');
+        path = one.startsWith('@') ? `${one}/${two}` : one;
         path = require.resolve(path, { paths: [ configPath ] });
         path = dirname(path);
-        path = resolve(path, join(...rest))
+        path = resolve(path, join(...rest));
       } catch (e) {
         log(`Failed to resolve path '${ source.path }'.`, LogType.Error);
         process.exit(1);
