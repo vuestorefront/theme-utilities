@@ -1,4 +1,4 @@
-import { resolve, dirname } from 'path';
+import { resolve, dirname, isAbsolute, join } from 'path';
 import { existsSync } from 'fs';
 import { log, getConfigurationPath, getWorkingDirectory, getArguments } from './helpers';
 import { configFlag, defaultConfigFilename } from '../settings';
@@ -41,16 +41,26 @@ function resolveSourcePaths(config: Configuration): Configuration {
     const configPath = dirname(getConfigurationPath());
     let path = '';
 
-    try {
-      path = require.resolve(source.path, { paths: [ configPath ] });
-      path = dirname(path);
-    } catch (error) {
-      path = resolve(configPath, source.path);
+    if(isAbsolute(source.path)) {
+      return source;
     }
 
-    if (!existsSync(path)) {
-      log(`Failed to resolve path '${ source.path }'.`, LogType.Error);
-      process.exit(1);
+    try {
+      path = resolve(configPath, source.path);
+      if(!existsSync(path)) {
+        throw new Error()
+      }
+    } catch (error) {
+      try {
+        const [ one, two, ...rest ] = source.path.split('/')
+        path = one.startsWith('@') ? `${one}/${two}` : one
+        path = require.resolve(path, { paths: [ configPath ] });
+        path = dirname(path);
+        path = resolve(path, join(...rest))
+      } catch (e) {
+        log(`Failed to resolve path '${ source.path }'.`, LogType.Error);
+        process.exit(1);
+      }
     }
 
     return { ...source, path };
