@@ -3,6 +3,8 @@ import { resolve, relative } from 'path';
 import { LogType } from '../types';
 import { configFlag, defaultConfigFilename, defaultIgnoredSources} from '../settings';
 
+export const isCLI = require.main === module;
+
 export function log(message: string, type: LogType = LogType.Raw) {
   const map = new Map([
     [ LogType.Success, chalk.bold.green ],

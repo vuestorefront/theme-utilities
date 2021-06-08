@@ -1,26 +1,39 @@
 import { resolve, dirname, isAbsolute, join } from 'path';
 import { existsSync } from 'fs';
-import { log, getConfigurationPath, getWorkingDirectory, getArguments } from './helpers';
+import { log, getConfigurationPath, getWorkingDirectory, getArguments, isCLI } from './helpers';
 import { configFlag, defaultConfigFilename } from '../settings';
 import { Configuration, LogType } from '../types';
 
-export default function loadConfiguration(): Configuration {
+export default function loadConfiguration(rawConfiguration?: Configuration): Configuration {
+  try {
+    let config = isCLI ? loadConfigurationFile() : rawConfiguration;
+    config = resolveDestinationPath(config);
+    config = resolveSourcePaths(config);
+
+    return config;
+  } catch (error) {
+    log(error, LogType.Raw);
+
+    if (isCLI) {
+      log(`Failed to load the configuration file.`, LogType.Error);
+      log(`You can provide custom config path using '${ configFlag }' flag.`, LogType.Message);
+      return process.exit(1);
+    }
+    
+    log(`Failed to load the configuration.`, LogType.Error);
+  }
+}
+
+/**
+ * Loads configuration file if the app was run from the CLI.
+ */
+function loadConfigurationFile(): Configuration {
   const args = getArguments();
   const index = args.findIndex(argument => argument === configFlag);
   const filePath = index > 0 && args[index + 1] || defaultConfigFilename;
   const path = resolve(getWorkingDirectory(), filePath);
 
-  try {
-    let config = require(path);
-    config = resolveDestinationPath(config);
-    config = resolveSourcePaths(config);
-    return config;
-  } catch (error) {
-    log(error, LogType.Raw);
-    log(`Failed to load the configuration file '${ path }'.`, LogType.Error);
-    log(`You can provide custom config path using '${ configFlag }' flag.`, LogType.Message);
-    process.exit(1);
-  }
+  return require(path);
 }
 
 /**
