@@ -3,7 +3,7 @@ import { existsSync, unlinkSync } from 'fs';
 import * as chokidar from 'chokidar';
 import transformTemplate from './transformTemplate';
 import { getFilesGlob, getFilePathFromSource, getPathPriority, getIgnoredPaths } from './helpers';
-import { WatchSourcesParams, WatchEventParams } from '../types';
+import { Source, WatchSourcesParams, WatchEventParams, WatchEventListenerParams } from '../types';
 
 const eventMapping: Record<string, (params: WatchEventParams) => void> = {
   add: handleAdd,
@@ -12,40 +12,50 @@ const eventMapping: Record<string, (params: WatchEventParams) => void> = {
 };
 
 export default function watchSources({ config, sourcesMap }: WatchSourcesParams): void {
-  const sourcePaths = config.copy.from
-    .filter(source => source.watch)
-    .map(source => getFilesGlob(source.path));
+  const sourcePaths = config.copy.from.filter(source => source.watch);
 
   if (!sourcePaths.length) {
     return;
   }
 
-  const options = {
-    ignored: getIgnoredPaths(config),
-    ignoreInitial: true,
-    awaitWriteFinish: {
-      stabilityThreshold: 500,
-      pollInterval: 100,
-    },
-  };
+  sourcePaths.forEach((source: Source) => {
+    const path = getFilesGlob(source.path);
+    const options = {
+      ignored: getIgnoredPaths(source),
+      ignoreInitial: true,
+      awaitWriteFinish: {
+        stabilityThreshold: 500,
+        pollInterval: 100,
+      },
+    };
 
-  chokidar.watch(sourcePaths, options).on('all', (eventName, eventPath) => {
-    const handler = eventMapping[eventName];
+    chokidar
+      .watch(path, options)
+      .on('all', (eventName, eventPath) => {
+        eventListener({ config, sourcesMap, eventName, eventPath });
+      });
+  });
+}
 
-    if (!handler) {
-      return;
-    }
+/**
+ * Handle all types of events in one of the watched directories.
+ */
+function eventListener({ config, sourcesMap, eventName, eventPath }: WatchEventListenerParams) {
+  const handler = eventMapping[eventName];
+  
+  if (!handler) {
+    return;
+  }
 
-    const source = config.copy.from.find(source => eventPath.startsWith(source.path));
-    const file = getFilePathFromSource(eventPath, source.path);
+  const source = config.copy.from.find(source => eventPath.startsWith(source.path));
+  const file = getFilePathFromSource(eventPath, source.path);
 
-    handler({
-      config,
-      sourcesMap,
-      eventPath,
-      file,
-      source,
-    });
+  handler({
+    config,
+    sourcesMap,
+    eventPath,
+    file,
+    source,
   });
 }
 
