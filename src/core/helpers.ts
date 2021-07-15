@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { resolve, relative } from 'path';
-import { LogType } from '../types';
-import { configFlag, defaultConfigFilename, defaultIgnoredSources} from '../settings';
+import { LogType, Source } from '../types';
+import { configFlag, defaultConfigFilename, defaultIgnoredSources } from '../settings';
 
 export function log(message: string, type: LogType = LogType.Raw) {
   const map = new Map([
@@ -47,12 +47,8 @@ export function getArguments(): string[] {
   return process.argv;
 }
 
-export function getIgnoredPaths(config): string[] {
-  return config.copy.from.reduce((carry, source) => {
-    const ignoredPaths = defaultIgnoredSources
-      .concat(source.ignore)
-      .map(ignore => `${source.path}/${ignore}`);
-
-    return carry.concat(ignoredPaths);
-  }, []);
+export function getIgnoredPaths(source: Source): string[] {
+  return defaultIgnoredSources
+    .concat(source.ignore)
+    .map(ignore => `${source.path}/${ignore}`);
 }

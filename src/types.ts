@@ -39,6 +39,13 @@ export interface WatchSourcesParams {
   sourcesMap: SourcesMap;
 }
 
+export interface WatchEventListenerParams {
+  config: Configuration;
+  sourcesMap: SourcesMap;
+  eventName: string;
+  eventPath: string;
+}
+
 export interface WatchEventParams {
   config: Configuration;
   sourcesMap: SourcesMap;
