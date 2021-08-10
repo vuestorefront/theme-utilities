@@ -1,6 +1,6 @@
 import { resolve, dirname, isAbsolute, join } from 'path';
 import { existsSync } from 'fs';
-import { log, getConfigurationPath, getWorkingDirectory, getArguments } from './helpers';
+import { log, getConfigurationPath, getWorkingDirectory, getArguments, getCustomOutputPath } from './helpers';
 import { configFlag, defaultConfigFilename } from '../settings';
 import { Configuration, LogType } from '../types';
 
@@ -27,7 +27,8 @@ export default function loadConfiguration(): Configuration {
  * This methods ensures that "to" is an absolute path.
  */
 function resolveDestinationPath(config: Configuration): Configuration {
-  config.copy.to = resolve(dirname(getConfigurationPath()), config.copy.to);
+  const destinationPath = getCustomOutputPath() || config.copy.to
+  config.copy.to = resolve(dirname(getConfigurationPath()), destinationPath);
   return config;
 }
 
