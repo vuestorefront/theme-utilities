@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { resolve, relative } from 'path';
 import { LogType, Source } from '../types';
-import { configFlag, defaultConfigFilename, defaultIgnoredSources } from '../settings';
+import { configFlag, defaultConfigFilename, defaultIgnoredSources, outputFlag } from '../settings';
 
 export function log(message: string, type: LogType = LogType.Raw) {
   const map = new Map([
@@ -41,6 +41,12 @@ export function getConfigurationPath(): string {
   const filePath = index > 0 && args[index + 1] || defaultConfigFilename;
 
   return resolve(getWorkingDirectory(), filePath);
+}
+
+export function getCustomOutputPath() {
+  const args = getArguments();
+  const index = args.findIndex(argument => argument === outputFlag);
+  return index > -1 && args[index + 1] && resolve(getWorkingDirectory(), args[index + 1]);
 }
 
 export function getArguments(): string[] {
