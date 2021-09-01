@@ -1,11 +1,11 @@
   // Command line argument used to provide custom config filename
 export const configFlag = '--config';
 
+// Command line argument used to provide custom path for a new project
+export const outputFlag = '--output';
+
 // Config filename used if one is not provided as an argument
 export const defaultConfigFilename = 'theme-utils.config.js';
-
-// Command line argument used to provide custom path for a new project
-export const outputFlag = '--outputDir';
 
 // List of glob paths ignored in source directories
 export const defaultIgnoredSources = [

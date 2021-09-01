@@ -61,12 +61,12 @@ describe('loadConfiguration', () => {
       resolveToTemp(mockArgvOutputPath)
     ];
 
-    const configuration = loadConfiguration()
+    const configuration = loadConfiguration();
     expect(configuration).toEqual(mockArgvOutputPathConfig);
 
-    configuration.copy.to = mockArgvConfig.copy.to
+    configuration.copy.to = mockArgvConfig.copy.to;
     process.argv = oldArguments;
-  })
+  });
 
   it('loads the default new project\'s directory if no --outputDir argument was provided', () => {
     const oldArguments = process.argv;
@@ -78,5 +78,5 @@ describe('loadConfiguration', () => {
 
     expect(loadConfiguration()).toEqual(mockArgvConfig);
     process.argv = oldArguments;
-  })
+  });
 });

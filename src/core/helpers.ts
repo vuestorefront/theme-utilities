@@ -43,7 +43,7 @@ export function getConfigurationPath(): string {
   return resolve(getWorkingDirectory(), filePath);
 }
 
-export function getCustomOutputPath() {
+export function getCustomOutputPath(): string {
   const args = getArguments();
   const index = args.findIndex(argument => argument === outputFlag);
   return index > -1 && args[index + 1] && resolve(getWorkingDirectory(), args[index + 1]);
