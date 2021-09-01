@@ -12,10 +12,10 @@ const getConfig = (to) => ({
 const getConfigContent = (config) => `module.exports = ${ JSON.stringify(config) };`
 
 const mockArgvPath = 'argument.config.js';
-const mockArgvOutputPath = '/output'
+const mockArgvOutputPath = '/output';
 const mockArgvConfig = getConfig('/argument/to');
 const mockDefaultConfig = getConfig('/default/to');
-const mockArgvOutputPathConfig = getConfig(mockArgvOutputPath)
+const mockArgvOutputPathConfig = getConfig(mockArgvOutputPath);
 
 jest.spyOn(process, 'cwd').mockImplementation(resolveToTemp);
 
