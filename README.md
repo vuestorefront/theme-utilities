@@ -1,6 +1,7 @@
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/1626923/137091487-092436dc-e5f9-49aa-8b6b-924a0d8b46fa.png" alt="Vue Storefront" />
+  <img src="https://user-images.githubusercontent.com/1626923/137092657-fb398d20-b592-4661-a1f9-4135db0b61d5.png" alt="Vue Storefront" height="80px" />
 </div>
+
 
 # Theme Utilities for Vue Storefront Next
 
