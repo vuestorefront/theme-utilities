@@ -18,5 +18,6 @@ export const templateFilesExtensions = [
   '.vue',
   '.ts',
   '.js',
-  '.json'
+  '.json',
+  '.yml'
 ];
