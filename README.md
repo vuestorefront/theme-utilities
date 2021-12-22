@@ -3,7 +3,7 @@
 </div>
 
 
-# Theme Utilities for Vue Storefront Next
+# Theme Utilities for Vue Storefront 2 (and not only)
 
 <a href="http://discord.vuestorefront.io/">
 <img src="https://discordapp.com/api/guilds/770285988244750366/widget.png?style=shield" alt="Discord Shield"/>
