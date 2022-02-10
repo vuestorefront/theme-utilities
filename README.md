@@ -23,7 +23,7 @@ Files with `.vue`, `.ts`, `.js`, and `.json` extensions are additionally parsed 
 ## Install
 
 ```bash
-yarn add @vue-storefront/theme-utilities
+yarn global add @vue-storefront/theme-utilities
 ```
 
 ## Usage
