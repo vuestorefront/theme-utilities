@@ -18,6 +18,7 @@ describe('transformTemplate', () => {
   beforeAll(() => {
     createDirectory(directory);
     createFile(`${directory}/README.md`, staticFileContent);
+    createFile(`${directory}/TESTING.md`, templateFileContent);
     createFile(`${directory}/component.vue`, templateFileContent);
     createFile(`${directory}/script.js`, templateFileContent);
     createFile(`${directory}/script.ts`, templateFileContent);
@@ -90,6 +91,26 @@ describe('transformTemplate', () => {
 
     await transformTemplate({
       config,
+      file: filename,
+      sourcePath: directory
+    });
+
+    expect(itemExists(destination)).toBeTruthy();
+    expect(itemContent(destination)).toBe(compiledContent);
+  });
+
+  it('compiles each file to destination if compileEachFile is true', async () => {
+    const filename = 'TESTING.md';
+    const destination = `${config.copy.to}/${filename}`;
+
+    await transformTemplate({
+      config: {
+        ...config,
+        copy: {
+          ...config.copy,
+          parseAllExtensions: true
+        }
+      },
       file: filename,
       sourcePath: directory
     });

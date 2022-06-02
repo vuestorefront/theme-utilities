@@ -7,6 +7,7 @@ export interface Source {
 
 export interface Configuration {
   copy: {
+    parseAllExtensions: boolean;
     to: string;
     from: Source[];
   }

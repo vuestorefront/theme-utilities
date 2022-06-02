@@ -22,7 +22,7 @@ You can use it with any JavaScript application though. it does not require Vue o
 
 Script reads files from multiple sources and copies them to destination directory. If files with the same path (relative to each source) exist in multiple sources, priority will be given to source defined later in the configuration.
 
-Files with `.vue`, `.ts`, `.js`, and `.json` extensions are additionally parsed using `ejs` library, allowing them to contain build-time variables like `<%= some.source.variable %>`.
+Files with `.vue`, `.ts`, `.js`, `.json`, and `.yml` extensions are additionally parsed using `ejs` library, allowing them to contain build-time variables like `<%= some.source.variable %>`. If you want to parse all extensions, add `parseAllExtensions: true` to the configuration.
 
 ## Install
 
@@ -63,6 +63,7 @@ Alternatively you can use `--config path/to/config/file` flag to provide custom 
 
 ### Options
 
+- `parseAllExtensions` Whether all extensions should be compiled or only `.vue`, `.ts`, `.js`, `.json`, and `.yml`.
 - `to` Path to output directory. Can be relative or absolute.
 - `from` Array of source directories:
   - `path` Path to source directory. Can be relative or absolute.

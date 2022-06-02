@@ -11,6 +11,10 @@ export default async function transformTemplate({ config, file, sourcePath }: Tr
 
   mkdirSync(dirname(destination), { recursive: true });
 
+  if (config.copy.parseAllExtensions) {
+    return writeFileSync(destination, await parseTemplate({ config, file: source, sourcePath }));
+  }
+
   return templateFilesExtensions.includes(extname(file))
     ? writeFileSync(destination, await parseTemplate({ config, file: source, sourcePath }))
     : copyFileSync(source, destination);
