@@ -106,7 +106,10 @@ describe('transformTemplate', () => {
     await transformTemplate({
       config: {
         ...config,
-        compileEachFile: true
+        copy: {
+          ...config.copy,
+          parseAllExtensions: true
+        }
       },
       file: filename,
       sourcePath: directory

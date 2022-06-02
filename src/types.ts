@@ -6,8 +6,8 @@ export interface Source {
 }
 
 export interface Configuration {
-  compileEachFile: boolean;
   copy: {
+    parseAllExtensions: boolean;
     to: string;
     from: Source[];
   }
