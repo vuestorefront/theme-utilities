@@ -6,6 +6,7 @@ export interface Source {
 }
 
 export interface Configuration {
+  compileEachFile: boolean;
   copy: {
     to: string;
     from: Source[];
