@@ -23,6 +23,7 @@ describe('transformTemplate', () => {
     createFile(`${directory}/script.js`, templateFileContent);
     createFile(`${directory}/script.ts`, templateFileContent);
     createFile(`${directory}/config.json`, templateFileContent);
+    createFile(`${directory}/ignored.js`, staticFileContent);
   });
 
   afterAll(() => {
@@ -99,7 +100,7 @@ describe('transformTemplate', () => {
     expect(itemContent(destination)).toBe(compiledContent);
   });
 
-  it('compiles each file to destination if compileEachFile is true', async () => {
+  it('compiles each file to destination if parseAllExtensions is true', async () => {
     const filename = 'TESTING.md';
     const destination = `${config.copy.to}/${filename}`;
 
@@ -117,5 +118,30 @@ describe('transformTemplate', () => {
 
     expect(itemExists(destination)).toBeTruthy();
     expect(itemContent(destination)).toBe(compiledContent);
+  });
+
+  it('doesn\'t compile files specified in ignoreParse', async () => {
+    const filename = 'ignored.js';
+    const destination = `${config.copy.to}/${filename}`;
+
+    await transformTemplate({
+      config: {
+        ...config,
+        copy: {
+          ...config.copy,
+          from: [
+            {
+              ...config.copy.from[0],
+              ignoreParse: [`${directory}/${filename}`]
+            }
+          ]
+        }
+      },
+      file: filename,
+      sourcePath: directory
+    });
+
+    expect(itemExists(destination)).toBeTruthy();
+    expect(itemContent(destination)).toBe(staticFileContent);
   });
 });

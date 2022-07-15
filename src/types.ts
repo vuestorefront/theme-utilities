@@ -1,8 +1,9 @@
 export interface Source {
   path: string;
-  ignore: string[];
-  variables: Record<string, any>;
-  watch: boolean;
+  ignore?: string[];
+  ignoreParse?: string[];
+  variables?: Record<string, any>;
+  watch?: boolean;
 }
 
 export interface Configuration {
