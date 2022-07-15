@@ -16,6 +16,7 @@
 > **Disclaimer:** This project is still in beta phase.
 
 ## How it works
+
 This package creates a `vsf-tu` script allowing to extend multiple [Vue Storefront 2](https://github.com/vuestorefront/vue-storefront) themes by letting them inherit from each other.
 
 You can use it with any JavaScript application though. it does not require Vue or Nuxt to run.
@@ -38,11 +39,13 @@ Create a `theme-utils.config.js` file in the root of the project.
 // theme-utils.config.js
 module.exports = {
   copy: {
+    parseAllExtensions: false,
     to: '',
     from: [
       {
         path: '',
         ignore: [],
+        ignoreParse: [],
         variables: {},
         watch: true
       }
@@ -68,6 +71,7 @@ Alternatively you can use `--config path/to/config/file` flag to provide custom 
 - `from` Array of source directories:
   - `path` Path to source directory. Can be relative or absolute.
   - `ignore` Array of ignored files/paths. Paths are [glob](https://github.com/isaacs/node-glob)-compatible. Contents of `.nuxt` and `node_modules` are ignored by default.
+  - `ignoreParse` Array of files that shouldn't be parsed by `ejs`. It overrides `parseAllExtensions` and file extensions parsed by default.
   - `variables` Template variables resolved at build-time.
   - `watch` Whether directory should be watched for changes.
 

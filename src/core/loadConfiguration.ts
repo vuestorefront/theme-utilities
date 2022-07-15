@@ -20,6 +20,7 @@ export default function loadConfiguration(): Configuration {
     let config = require(path);
     config = resolveDestinationPath(config);
     config = resolveSourcePaths(config);
+    config = resolveFilesIgnoredFromParsing(config);
     return config;
   } catch (error) {
     log(error, LogType.Raw);
@@ -30,7 +31,7 @@ export default function loadConfiguration(): Configuration {
 }
 
 /**
- * This methods ensures that "to" is an absolute path.
+ * Ensures that "to" is an absolute path.
  */
 function resolveDestinationPath(config: Configuration): Configuration {
   const destinationPath = getCustomOutputPath() || config.copy.to;
@@ -44,8 +45,9 @@ function resolveDestinationPath(config: Configuration): Configuration {
  * paths to all "node_modules" directories and checks if any of them exists.
  */
 function resolveSourcePaths(config: Configuration): Configuration {
+  const configPath = dirname(getConfigurationPath());
+
   config.copy.from = config.copy.from.map(source => {
-    const configPath = dirname(getConfigurationPath());
     let path = '';
 
     if(isAbsolute(source.path)) {
@@ -71,6 +73,29 @@ function resolveSourcePaths(config: Configuration): Configuration {
     }
 
     return { ...source, path };
+  });
+
+  return config;
+}
+
+/**
+ * Ensures that all "ignoreParse" paths are absolute.
+ */
+function resolveFilesIgnoredFromParsing(config: Configuration): Configuration {
+  config.copy.from = config.copy.from.map(source => {
+    if (!source.ignoreParse) {
+      return source;
+    }
+
+    source.ignoreParse = source.ignoreParse.map(ignore => {
+      if(isAbsolute(ignore)) {
+        return ignore;
+      }
+
+      return resolve(source.path, ignore);
+    });
+
+    return source;
   });
 
   return config;
