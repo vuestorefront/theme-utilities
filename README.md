@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/1626923/137092657-fb398d20-b592-4661-a1f9-4135db0b61d5.png" alt="Vue Storefront" height="80px" />
+  <img src="https://res.cloudinary.com/vue-storefront/image/upload/v1710754524/Logo_green_2x_z4vmhz.png" alt="Alokai" height="80px" />
 </div>
 
   ---------
@@ -11,13 +11,13 @@
 [![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCkm1F3Cglty3CE1QwKQUhhg?style=social)](https://www.youtube.com/c/VueStorefront)
 [![Discord](https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white)](https://discord.vuestorefront.io)
 
-# Theme Utilities for Vue Storefront 2 (and not only)
+# Theme Utilities for Alokai (and not only)
 
 > **Disclaimer:** This project is still in beta phase.
 
 ## How it works
 
-This package creates a `vsf-tu` script allowing to extend multiple [Vue Storefront 2](https://github.com/vuestorefront/vue-storefront) themes by letting them inherit from each other.
+This package creates a `vsf-tu` script allowing to extend multiple [Alokai](https://github.com/vuestorefront/vue-storefront) themes by letting them inherit from each other.
 
 You can use it with any JavaScript application though. it does not require Vue or Nuxt to run.
 
